@@ -89,9 +89,9 @@ getToken().then(token => {
     ])
         .then(result => {
             var final_result = result[0]
-            if (result[1]) final_result.concat(result[1])
-            if (result[2]) final_result.concat(result[2])
-            if (result[3]) final_result.concat(result[3])
+            if (result[1]) final_result = final_result.concat(result[1])
+            if (result[2]) final_result = final_result.concat(result[2])
+            if (result[3]) final_result = final_result.concat(result[3])
             console.log(JSON.stringify(final_result))
         })
 })

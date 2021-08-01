@@ -1,0 +1,15 @@
+requirement: nodeJS (https://nodejs.org/en/)
+
+1. open terminal here
+2. npm install, enter
+3. npm run start, enter. wait until shown "[HTTP Server] serving at: http://localhost:8888/Simulator/index.html"
+4. open browser, go to http://localhost:8888/Simulator/index.html
+5. fill Connector URL with ../ura.html
+6. click "Start Interactive Phase"
+7. in newly opened browser tab, click "Get Private Residential Property Transactions"
+8. after it closed, and go back to main page, scroll down, and click "Fetch Table Data"
+
+note:
+- testing data would be pretty large totally, about 30MB, and it would crash the browser on step 8
+- tips for testing: open ura-get-data.js, comment out or delete line 85-87, and re-run "npm run start"
+- it will only fetch batch-4 data, which is smallest then the others
