@@ -70,18 +70,26 @@
 
     // Download the data
     myConnector.getData = function (table, doneCallback) {
-        $.getJSON("http://localhost:8888/ura.php", function (resp) {
-            var feat = resp.Result,
-                tableData = [];
-
-            // Iterate over the JSON object
-            for (var i = 0, len = feat.length; i < len; i++) {
-                tableData.push({
-                    "street": feat[i].street,
-                    "project": feat[i].project,
-                    "transactionCount": feat[i].transaction.length,
-                    "marketSegment": feat[i].marketSegment
-                });
+        $.getJSON("http://localhost:8888/ura.json", function (resp) {
+            var tableData = [];
+            for (var prop of resp) {
+                for (var trx of prop.transaction) {
+                    tableData.push({
+                        "street": prop.street,
+                        "project": prop.project,
+                        "area": trx.area,
+                        "floorRange": trx.floorRange,
+                        "noOfUnits": trx.noOfUnits,
+                        "contractDate": trx.contractDate,
+                        "typeOfSale": trx.typeOfSale,
+                        "price": trx.price,
+                        "propertyType": trx.propertyType,
+                        "district": trx.district,
+                        "typeOfArea": trx.typeOfArea,
+                        "tenure": trx.tenure,
+                        "marketSegment": prop.marketSegment
+                    })
+                }
             }
 
             table.appendRows(tableData);
@@ -94,7 +102,7 @@
     // Create event listeners for when the user submits the form
     $(document).ready(function () {
         $("#submitButton").click(function () {
-            tableau.connectionName = "USGS Earthquake Feed"; // This will be the data source name in Tableau
+            tableau.connectionName = "Private Residential Property Transactions"; // This will be the data source name in Tableau
             tableau.submit(); // This sends the connector object to Tableau
         });
     });
