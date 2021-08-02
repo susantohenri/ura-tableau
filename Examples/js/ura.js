@@ -71,10 +71,26 @@
     // Download the data
     myConnector.getData = function (table, doneCallback) {
         $.getJSON(`http://localhost:8888/Examples/json/ura.json`, function (resp) {
+
+            var dateObj = JSON.parse(tableau.connectionData)
+            var startDate = new Date(dateObj.startDate)
+            var endDate = new Date(dateObj.endDate)
+            var dates = [];
+            var dateCounter = new Date(startDate);
+            // avoids edge case where last month is skipped
+            dateCounter.setDate(1);
+            while (dateCounter < endDate) {
+                var month = dateCounter.getMonth() + 1
+                month = month < 10 ? `0${month}` : month
+                var year = dateCounter.getFullYear().toString().substring(2)
+                dates.push(`${month}${year}`);
+                dateCounter.setMonth(dateCounter.getMonth() + 1);
+            }
+
             var tableData = [];
             for (var prop of resp) {
                 for (var trx of prop.transaction) {
-                    tableData.push({
+                    if (dates.indexOf(trx.contractDate) > -1) tableData.push({
                         "street": prop.street,
                         "project": prop.project,
                         "area": trx.area,
@@ -101,9 +117,27 @@
 
     // Create event listeners for when the user submits the form
     $(document).ready(function () {
+        $('[id*="-date-one"]').val(new Date().toISOString().substr(0, 10))
         $("#submitButton").click(function () {
-            tableau.connectionName = "Private Residential Property Transactions"; // This will be the data source name in Tableau
-            tableau.submit(); // This sends the connector object to Tableau
+            var dateObj = {
+                startDate: $('#start-date-one').val().trim(),
+                endDate: $('#end-date-one').val().trim(),
+            };
+
+            // Simple date validation: Call the getDate function on the date object created
+            function isValidDate(dateStr) {
+                var d = new Date(dateStr);
+                return !isNaN(d.getDate());
+            }
+
+            if (isValidDate(dateObj.startDate) && isValidDate(dateObj.endDate)) {
+                tableau.connectionData = JSON.stringify(dateObj); // Use this variable to pass data to your getSchema and getData functions
+                tableau.connectionName = "Private Residential Property Transactions"; // This will be the data source name in Tableau
+                tableau.submit(); // This sends the connector object to Tableau
+            } else {
+                $('#errorMsg').html("Enter valid dates. For example, 2016-05-08.");
+            }
         });
     });
+
 })();
