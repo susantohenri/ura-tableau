@@ -70,7 +70,7 @@
 
     // Download the data
     myConnector.getData = function (table, doneCallback) {
-        $.getJSON("http://localhost:8888/ura.json", function (resp) {
+        $.getJSON(`http://localhost:8888/Examples/json/ura.json`, function (resp) {
             var tableData = [];
             for (var prop of resp) {
                 for (var trx of prop.transaction) {
