@@ -10,8 +10,16 @@
                 dataType: tableau.dataTypeEnum.string
             },
             {
+                id: "x",
+                dataType: tableau.dataTypeEnum.float
+            },
+            {
                 id: "project",
                 dataType: tableau.dataTypeEnum.string
+            },
+            {
+                id: "y",
+                dataType: tableau.dataTypeEnum.float
             },
             {
                 id: "area",
@@ -23,6 +31,10 @@
             },
             {
                 id: "noOfUnits",
+                dataType: tableau.dataTypeEnum.float
+            },
+            {
+                id: "nettPrice",
                 dataType: tableau.dataTypeEnum.float
             },
             {
@@ -92,10 +104,13 @@
                 for (var trx of prop.transaction) {
                     if (dates.indexOf(trx.contractDate) > -1) tableData.push({
                         "street": prop.street,
+                        "x": prop.x ? prop.x : 0,
                         "project": prop.project,
+                        "y": prop.y ? prop.y : 0,
                         "area": trx.area,
                         "floorRange": trx.floorRange,
                         "noOfUnits": trx.noOfUnits,
+                        "nettPrice": trx.nettPrice ? trx.nettPrice : 0,
                         "contractDate": trx.contractDate,
                         "typeOfSale": trx.typeOfSale,
                         "price": trx.price,
