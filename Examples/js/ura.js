@@ -82,7 +82,7 @@
 
     // Download the data
     myConnector.getData = function (table, doneCallback) {
-        $.getJSON(`http://localhost:8888/Examples/json/ura.json`, function (resp) {
+        $.getJSON(`${window.location.origin}/Examples/json/ura.json`, function (resp) {
 
             var dateObj = JSON.parse(tableau.connectionData)
             var startDate = new Date(dateObj.startDate)

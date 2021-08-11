@@ -1,3 +1,4 @@
+const fs = require('fs')
 var AccessKey = '82a93672-8507-486e-84f9-2080735b6103'
 
 function getToken() {
@@ -92,6 +93,6 @@ getToken().then(token => {
             if (result[1]) final_result = final_result.concat(result[1])
             if (result[2]) final_result = final_result.concat(result[2])
             if (result[3]) final_result = final_result.concat(result[3])
-            console.log(JSON.stringify(final_result))
+            fs.writeFileSync(`Examples/json/ura.json`, JSON.stringify(final_result))
         })
 })
